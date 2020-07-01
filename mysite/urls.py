@@ -17,6 +17,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include  # <-- Make sure you have both of these imports.
 from django.contrib.auth.views import LoginView, LogoutView
+from rest_framework import routers
+
+import mysite.views as mysite_views
+
+router = routers.DefaultRouter()
+router.register(r'users', mysite_views.UserViewSet)
+router.register(r'groups', mysite_views.GroupViewSet)
 
 urlpatterns = [
     path('polling/', include('polling.urls')),  # <-- Add this
@@ -24,4 +31,6 @@ urlpatterns = [
     path('', include('blogging.urls')),
     path('login/', LoginView.as_view(template_name='login.html'), name="login"),
     path('logout/', LogoutView.as_view(next_page='/'), name="logout"),
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

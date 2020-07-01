@@ -2,7 +2,7 @@ from django.contrib import admin
 from blogging.models import Post, Category
 
 class CategoryInline(admin.TabularInline):
-    model = Category
+    model = Category.posts.through
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -13,6 +13,3 @@ class PostAdmin(admin.ModelAdmin):
     inlines = [
         CategoryInline,
     ]
-
-admin.site.register(Post)
-admin.site.register(Category)
